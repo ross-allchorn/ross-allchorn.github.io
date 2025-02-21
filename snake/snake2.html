@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Snake</title>
+    <style>
+      /*================================================
+
+General
+
+================================================*/
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html,
+      body {
+        background-color: #121212;
+        height: 100%;
+      }
+
+      body {
+        background: #121212;
+        /* background: radial-gradient(#333, #111); */
+        background-position: center center;
+        background-repeat: no-repeat;
+        background-size: cover;
+        color: #fff;
+        font: 100%/1.5 sans-serif;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+      }
+
+      /*================================================
+  
+  Score
+  
+  ================================================*/
+      .title {
+        text-align: center;
+        padding: 10px; /* Reduced padding */
+        margin-bottom: 10px; /* Added margin */
+      }
+
+      .score {
+        color: #04cdfd;
+        font-size: 16px;
+        font-weight: bold;
+        text-align: center;
+        display: inline;
+      }
+
+      /*================================================
+  
+  Stage
+  
+  ================================================*/
+
+      .stage {
+        bottom: 0;
+        left: 0;
+        margin: auto;
+        position: absolute;
+        right: 0;
+        top: 0;
+        z-index: 2;
+      }
+
+      /*================================================
+  
+  Tiles
+  
+  ================================================*/
+
+      .tile {
+        background: #000;
+        position: absolute;
+        transition-property: background, box-shadow, opacity, transform;
+        transform: translateZ(0);
+        transition-duration: 3000ms;
+      }
+
+      .tile:before {
+        bottom: 0;
+        content: "";
+        height: 0;
+        left: 0;
+        margin: auto;
+        opacity: 0;
+        position: absolute;
+        right: 0;
+        top: 0;
+        width: 0;
+        transition: opacity 300ms;
+      }
+
+      .tile.path:before {
+        opacity: 1;
+      }
+
+      .tile.up:before {
+        border-bottom: 4px inset rgba(255, 255, 255, 0.15);
+        border-left: 4px solid transparent;
+        border-right: 4px solid transparent;
+      }
+
+      .tile.down:before {
+        border-top: 4px inset rgba(255, 255, 255, 0.15);
+        border-left: 4px solid transparent;
+        border-right: 4px solid transparent;
+      }
+
+      .tile.left:before {
+        border-right: 4px inset rgba(255, 255, 255, 0.15);
+        border-top: 4px solid transparent;
+        border-bottom: 4px solid transparent;
+      }
+
+      .tile.right:before {
+        border-left: 4px inset rgba(255, 255, 255, 0.15);
+        border-top: 4px solid transparent;
+        border-bottom: 4px solid transparent;
+      }
+
+      @media (max-width: 900px), (max-height: 900px) {
+        .tile.up:before,
+        .tile.down:before,
+        .tile.left:before,
+        .tile.right:before {
+          border-width: 3px;
+        }
+      }
+
+      @media (max-width: 500px), (max-height: 500px) {
+        .tile.up:before,
+        .tile.down:before,
+        .tile.left:before,
+        .tile.right:before {
+          border-width: 2px;
+        }
+      }
+
+      .tile.pressed {
+        background: rgba(0, 0, 0, 0.3);
+        box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.6);
+        transition-duration: 0ms;
+      }
+
+      /*================================================
+  
+  Arrow Keys
+  
+  ================================================*/
+
+      .arrow-keys {
+        position: absolute;
+        bottom: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        grid-template-rows: repeat(3, 1fr);
+        gap: 10px;
+        z-index: 3; /* Ensure buttons are on top */
+      }
+
+      .arrow-button {
+        width: 50px;
+        height: 50px;
+        border: none;
+        background-color: #eee;
+        border-radius: 5px;
+        font-size: 20px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      #up {
+        grid-column: 2;
+        grid-row: 1;
+      }
+
+      #down {
+        grid-column: 2;
+        grid-row: 3;
+      }
+
+      #left {
+        grid-column: 1;
+        grid-row: 2;
+      }
+
+      #right {
+        grid-column: 3;
+        grid-row: 2;
+      }
+
+      /* Optional: Add some hover effect */
+      .arrow-button:hover {
+        background-color: #ddd;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="title">
+      You have collected
+      <div class="score">0</div>
+      green dots.
+    </div>
+
+    <div class="stage"></div>
+
+    <div class="arrow-keys">
+      <button class="arrow-button" id="up" aria-label="Up Arrow">↑</button>
+      <button class="arrow-button" id="down" aria-label="Down Arrow">↓</button>
+      <button class="arrow-button" id="left" aria-label="Left Arrow">←</button>
+      <button class="arrow-button" id="right" aria-label="Right Arrow">
+        →
+      </button>
+    </div>
+
+    <script>
+      //... (Your existing JavaScript code)...
+
+      const upButton = document.getElementById("up");
+      const downButton = document.getElementById("down");
+      const leftButton = document.getElementById("left");
+      const rightButton = document.getElementById("right");
+
+      upButton.addEventListener("click", () => g.currentState().upOn());
+      downButton.addEventListener("click", () => g.currentState().downOn());
+      leftButton.addEventListener("click", () => g.currentState().leftOn());
+      rightButton.addEventListener("click", () => g.currentState().rightOn());
+
+      //... (Rest of your existing JavaScript code)...
+    </script>
+  </body>
+</html>
