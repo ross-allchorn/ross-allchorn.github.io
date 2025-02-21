@@ -17,13 +17,13 @@ General
 
 html,
 body {
-  background-color: #000;
+  background-color: #121212;
   height: 100%;
 }
 
 body {
-  background: #222;
-  background: radial-gradient(#333, #111);
+  background: #121212;
+  /* background: radial-gradient(#333, #111); */
   background-position: center center;
   background-repeat: no-repeat;
   background-size: cover;
@@ -39,10 +39,10 @@ body {
   ================================================*/
 .title {
   text-align: center;
-  padding: 5px;
+  padding: 30px;
 }
 .score {
-  color: rgba(255, 255, 255, 0.5);
+  color: #04CDFD;
   font-size: 16px;
   font-weight: bold;
   text-align: center;
@@ -72,7 +72,7 @@ body {
   ================================================*/
 
 .tile {
-  background: rgba(0, 0, 0, 0.15);
+  background: #000;
   position: absolute;
   transition-property: background, box-shadow, opacity, transform;
   transform: translateZ(0);
@@ -706,6 +706,7 @@ g = {};
     this.elem.style.boxShadow =
       "0 0 " + this.blur + "px hsla(" + this.hue + ", 100%, 60%, 1)";
     this.elem.style.opacity = this.opacity;
+    this.elem.style.borderRadius = "50%"; 
   };
 })();
 
